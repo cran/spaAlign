@@ -4,7 +4,14 @@
 \alias{spa_align}
 \title{Stratigraphic Plug Alignment (SPA)}
 \usage{
-spa_align(ref, ..., depth_col = "Depth_m", rule = 1, add_suffix = TRUE)
+spa_align(
+  ref,
+  ...,
+  depth_col = "Depth_m",
+  rule = 1,
+  add_suffix = TRUE,
+  trim = FALSE
+)
 }
 \arguments{
 \item{ref}{A data.frame containing the reference depth grid and (optionally)
@@ -22,10 +29,14 @@ in meters. However, all input datasets must use the same depth unit for
 interpolation to be meaningful.}
 
 \item{rule}{Integer passed to \code{approx()} (default \code{1}).
-\code{rule = 1} prevents extrapolation outside the observed depth range.}
+\code{rule = 1} prevents extrapolation outside the observed depth range.
+\code{rule = 2} performs constant extrapolation (end-point hold).}
 
 \item{add_suffix}{Logical; if \code{TRUE}, variable names are suffixed with
 the dataset name (e.g., \code{TOC_plugs}, \code{Quartz_xrd}).}
+
+\item{trim}{Logical; if \code{TRUE}, drops rows where any interpolated column
+is \code{NA}. Default \code{FALSE} (preserves all reference depths).}
 }
 \value{
 A data.frame containing the reference depth grid and interpolated
@@ -34,21 +45,24 @@ variables aligned to the same resolution.
 \description{
 Linearly interpolates plug-based measurements (e.g., TOC, porosity, XRD)
 onto a high-resolution reference depth grid (e.g., XRF).
-The procedure uses base R's \code{approx()} with \code{rule = 1} to prevent
-extrapolation beyond the observed depth range, ensuring stratigraphically
-consistent alignment of all datasets.
+The procedure uses base R's \code{approx()} with \code{rule = 1} (default)
+to prevent extrapolation beyond the observed depth range, ensuring
+stratigraphically consistent alignment of all datasets.
 }
 \details{
 SPA is intended for vertically ordered core or log data, where measurements
 are indexed by depth along a stratigraphic profile.
 }
 \examples{
-# Synthetic example (for illustration)
 ref <- data.frame(Depth_m = 0:10, Ca = runif(11, 100, 200))
 xrd <- data.frame(Depth_m = c(2, 5, 7), Quartz = c(54, 60, 58))
 plugs <- data.frame(Depth_m = c(3, 7, 9), TOC = c(3.0, 3.3, 3.5))
 
+# Default: preserves reference depth grid
 aligned <- spa_align(ref, xrd = xrd, plugs = plugs)
 head(aligned)
+
+# Overlap-only alignment
+aligned_overlap <- spa_align(ref, xrd = xrd, plugs = plugs, trim = TRUE)
 
 }

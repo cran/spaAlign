@@ -1,5 +1,7 @@
-97f274eab4afbad31ebf5dcebda4693f *DESCRIPTION
+7e99550dae1ee9b41f1697ba1bc913a1 *DESCRIPTION
 97de785b51aadbabed133b757b496137 *LICENSE
 6fac2718d0e75b91a0f1cc27083fd0fd *NAMESPACE
-27311c83990ee395df0eecc6d2a8a75b *R/spa_align.R
-5de728360eede3b4f368a56a9ec9f21d *man/spa_align.Rd
+6b23253eaa46132bb09521b2fce1591c *R/spa_align.R
+db01d2389df5639f83824bf98d652498 *man/spa_align.Rd
+949481f6fd4e142bbf1b405a7021a5b6 *tests/testthat.R
+35d986e2a178179ea03450886b74cfa0 *tests/testthat/test-spa_align.R
